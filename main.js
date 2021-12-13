@@ -1,11 +1,23 @@
 $(document).ready(function () {
     let page = 1;
     let productName = "";
-    const getTableData = (page, productName) => {
+    let productCategory = [];
+    let productMarketId = "";
+    let productBrand = "";
+    var productMinPrice = 0;
+    let ProductmaxPrice = Infinity;
+    let productMadein = "";
+    const getTableData = (page, productName, productCategory, productMarketId, productBrand, productMinPrice, ProductmaxPrice, productMadein) => {
 
         let data = {
             page: page,
-            search_word: productName
+            search_word: productName,
+            category_list: [productCategory],
+            market_id: productMarketId,
+            product_brand: productBrand,
+            min_price: productMinPrice,
+            max_price: ProductmaxPrice,
+            product_madein: productMadein
         }
 
         $.ajax({
@@ -53,32 +65,55 @@ $(document).ready(function () {
         });
     }
     const nextPage = () => {
-        console.log("nextpage");
         $('#market-table').DataTable().clear().draw();;
         console.log("++")
-        page++
         productName = $("#txtProductName").val();
-        getTableData(page, productName)
+        productCategory = $("#categories").val();
+        productMarketId = $("#markets").val();
+        productBrand = $("#txtProductBrand").val();
+        productMinPrice = $("#txtProductMinPrice").val();
+        ProductmaxPrice = $("#txtProductMaxPrice").val();
+        productMadein = $("#txtProductMadein").val();
+        page++
+        prevbuttonActivKontrol()
+        getTableData(page, productName, productCategory, productMarketId, productBrand, productMinPrice, ProductmaxPrice, productMadein)
 
     };
     const prevPage = () => {
-        console.log("prevpage");
-        $('#market-table').DataTable().clear().draw();;
-        console.log("++")
+        $('#market-table').DataTable().clear().draw();
         page--
         productName = $("#txtProductName").val();
-        getTableData(page, productName)
+        productCategory = $("#categories").val();
+        productMarketId = $("#markets").val();
+        productBrand = $("#txtProductBrand").val();
+        productMinPrice = $("#txtProductMinPrice").val();
+        ProductmaxPrice = $("#txtProductMaxPrice").val();
+        productMadein = $("#txtProductMadein").val();
+        prevbuttonActivKontrol()
+        getTableData(page, productName, productCategory, productMarketId, productBrand, productMinPrice, ProductmaxPrice, productMadein)
 
     };
 
     const getResults = () => {
+        prevbuttonActivKontrol()
 
         console.log("getResults")
-
         productName = $("#txtProductName").val();
-        console.log(productName);
-        getTableData(page, productName);
+        productCategory = $("#categories").val();
+        productMarketId = $("#markets").val();
+        productBrand = $("#txtProductBrand").val();
+        productMinPrice = $("#txtProductMinPrice").val();
+        ProductmaxPrice = $("#txtProductMaxPrice").val();
+        productMadein = $("#txtProductMadein").val();
 
+        // console.log("productName"+productName);
+        // console.log("productCategory"+productCategory);
+        // console.log("productMarketId"+productMarketId);
+        // console.log("productBrand"+productBrand);
+        // console.log("productMinPrice"+productMinPrice);
+        // console.log("ProductmaxPrice"+ProductmaxPrice);
+        // console.log("productMadein"+productMadein)
+        getTableData(page, productName, productCategory, productMarketId, productBrand, productMinPrice, ProductmaxPrice, productMadein)
     };
 
     $("#btnGetResults").click(function () {
@@ -103,8 +138,7 @@ $(document).ready(function () {
             success: function (response) {
                 $.each(response, function (k, v) {
                     let options = `
-                    <option value="${v.category_id}">${v.product_category}</option>
-                    `
+                    <option value="${v.id}">${v.product_category+" ("+marketDon(v.market_id)+")" }</option>`
                     $("#categories").append(options);
                 })
             }
@@ -121,6 +155,38 @@ $(document).ready(function () {
         placeholder: "Seçiniz",
 
     });
+
+    function marketDon(market_id) {
+        const textMarkets = ['Carrefoursa', 'Migros', 'A101', 'Şok']
+        return textMarkets[market_id - 1];
+    }
+
+    const getMarkets = () => {
+        const textMarkets = ['Carrefoursa', 'Migros', 'A101', 'Şok']
+        for (let i = 0; i < textMarkets.length; i++) {
+            let options = `<option value="${(i+1)}">${textMarkets[i]}</option>`
+            $("#markets").append(options);
+        }
+    }
+    getMarkets();
+    $('#markets').select2({
+        language: {
+            noResults: function (params) {
+                return "Market Bulunamadı!";
+            },
+        },
+
+        placeholder: "Market Seçiniz",
+
+    });
+
+    function prevbuttonActivKontrol(){
+        const button = document.querySelector('.btnPrev');
+        if(page>1)
+            button.disabled = false;
+        else
+            button.disabled = true;
+    }
 
 
     if ($(window).width() > 991) {
