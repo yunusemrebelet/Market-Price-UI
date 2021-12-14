@@ -3,7 +3,7 @@ var myChart = echarts.init(document.getElementById('main'));
 
 
 const chartHandler = (sku_id, product_name) => {
-    console.log(sku_id)
+    // console.log(sku_id)
     let data = {
         sku_id: sku_id
     };
@@ -126,7 +126,7 @@ $(document).ready(function () {
         let data = {
             page: page,
             search_word: productName,
-            category_list: [6],
+            category_list: productCategory,
             market_id: productMarketId,
             product_brand: productBrand,
             min_price: productMinPrice,
@@ -141,7 +141,7 @@ $(document).ready(function () {
             success: function (response) {
                 $(".loading").attr("hidden", true);
                 setTimeout(() => {
-                    console.log("getTableData");
+                    // console.log("getTableData");
                     $("#market-table tbody").empty();
                     $.each(response, function (k, v) {
                         let rows = `
@@ -183,7 +183,7 @@ $(document).ready(function () {
     }
     const nextPage = () => {
         $('#market-table').DataTable().clear().draw();;
-        console.log("++")
+        // console.log("++")
         productName = $("#txtProductName").val();
         productCategory = $("#categories").val();
         productMarketId = $("#markets").val();
@@ -216,7 +216,14 @@ $(document).ready(function () {
 
         console.log("getResults")
         productName = $("#txtProductName").val();
-        productCategory = $("#categories").val();
+        productCategory=[];
+        console.log("pc"+$("#categories").val())
+        if($("#categories").val()!=""){
+            productCategory0 = ($("#categories").val()).toString().split(",");
+            productCategory = productCategory0.map(function (x) {
+                return parseInt(x, 10);
+            });
+        }
         productMarketId = $("#markets").val();
         productBrand = $("#txtProductBrand").val();
         productMinPrice = $("#txtProductMinPrice").val();
@@ -224,7 +231,7 @@ $(document).ready(function () {
         productMadein = $("#txtProductMadein").val();
 
         // console.log("productName"+productName);
-        // console.log("productCategory"+productCategory);
+        console.log("productCategory" + typeof (productCategory));
         // console.log("productMarketId"+productMarketId);
         // console.log("productBrand"+productBrand);
         // console.log("productMinPrice"+productMinPrice);
@@ -234,7 +241,7 @@ $(document).ready(function () {
     };
 
     $("#btnGetResults").click(function () {
-        console.log("getresultsbtn clicked")
+        // console.log("getresultsbtn clicked")
         getResults();
     });
 
@@ -323,4 +330,3 @@ $(document).ready(function () {
     }
 
 });
-
