@@ -1,4 +1,115 @@
+// Initialize the echarts instance based on the prepared dom
+var myChart = echarts.init(document.getElementById('main'));
+
+
+const chartHandler = (sku_id, product_name) => {
+    console.log(sku_id)
+    let data = {
+        sku_id: sku_id
+    };
+
+    $("#productChartName").text(product_name);
+
+    let historyDates = [];
+    let historyPrices = [];
+
+    $.ajax({
+        type: "POST",
+        url: "https://marketapi-bfltu.ondigitalocean.app/listHP/",
+        data: JSON.stringify(data),
+        success: function (response) {
+
+            $.each(response, function (k, v) {
+                historyDates.push(v.created_date.split("T")[0]);
+                historyPrices.push(v.product_price);
+
+            });
+
+            // Specify the configuration items and data for the chart
+            option = {
+                tooltip: {
+                    trigger: 'axis'
+                },
+                xAxis: [{
+                    type: 'category',
+                    data: historyDates,
+                    axisLine: {
+                        lineStyle: {
+                            color: "#999"
+                        }
+                    },
+                    axisLabel: {
+                        rotate: 60
+                    }
+                }],
+                yAxis: [{
+                    type: 'value',
+                    splitNumber: 4,
+                    splitLine: {
+                        lineStyle: {
+                            type: 'dashed',
+                            color: '#DDD'
+                        }
+                    },
+                    axisLine: {
+                        show: false,
+                        lineStyle: {
+                            color: "#333"
+                        },
+                    },
+                    nameTextStyle: {
+                        color: "#999"
+                    },
+                    splitArea: {
+                        show: false
+                    }
+                }],
+                series: [{
+                    name: 'Fiyat',
+                    type: 'line',
+                    data: historyPrices,
+                    lineStyle: {
+                        normal: {
+                            width: 2,
+                            color: {
+                                type: 'linear',
+
+                                colorStops: [{
+
+                                    offset: 0,
+                                    color: 'orange' // 100% 处的颜色
+                                }],
+                                globalCoord: false // 缺省为 false
+                            },
+                            shadowColor: 'rgba(72,216,191, 0.3)',
+
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+                            color: 'black',
+                            borderWidth: 12,
+                            /*  shadowColor: 'rgba(72,216,191, 0.3)',
+                             shadowBlur: 100, */
+                            borderColor: "black"
+                        }
+                    },
+                    smooth: true
+                }]
+            };
+
+            // Display the chart using the configuration items and data just specified.
+            myChart.setOption(option);
+
+        },
+        error: function () {
+            console.log("error")
+        },
+    });
+}
+
 $(document).ready(function () {
+
     let page = 1;
     let productName = "";
     let productCategory = [];
@@ -9,10 +120,13 @@ $(document).ready(function () {
     let productMadein = "";
     const getTableData = (page, productName, productCategory, productMarketId, productBrand, productMinPrice, ProductmaxPrice, productMadein) => {
 
+
+        $(".loading").removeAttr("hidden");
+
         let data = {
             page: page,
             search_word: productName,
-            category_list: [productCategory],
+            category_list: [6],
             market_id: productMarketId,
             product_brand: productBrand,
             min_price: productMinPrice,
@@ -25,12 +139,14 @@ $(document).ready(function () {
             url: "https://marketapi-bfltu.ondigitalocean.app/listproducts/",
             data: JSON.stringify(data),
             success: function (response) {
-                console.log("getTableData");
-                $("#market-table tbody").empty();
-                $.each(response, function (k, v) {
-                    let rows = `
+                $(".loading").attr("hidden", true);
+                setTimeout(() => {
+                    console.log("getTableData");
+                    $("#market-table tbody").empty();
+                    $.each(response, function (k, v) {
+                        let rows = `
                     <tr>
-                        <td><img src="${v.product_image}" alt="${v.product_name}"></td> 
+                        <td style="width:160px;"><img src="${v.product_image}" alt="${v.product_name}"></td> 
                         <td>${v.product_name}</td>
                         <td>${v.product_brand}</td>
                         <td>${v.market_name}</td>
@@ -38,24 +154,25 @@ $(document).ready(function () {
                         <td>${v.product_price} TL</td>
                         <td>${v.product_category}</td>
                         <td><a target="_blank" href="${v.product_link}"><i data-toggle="tooltip" data-placement="bottom" title="Ürünü İncele" style="font-size: 18px; color: #fb8332;" class='bx bx-link-external'></a></i>
-                        <a data-toggle="modal" data-target="#chartModal"><i data-toggle="tooltip" data-placement="bottom" title="Fiyat Geçmişi" style="font-size: 18px; color: #fb8332;" class='bx bx-bar-chart-alt-2'></a></i></td>
+                        <a onclick="chartHandler(this.id, this.class)" class="v.product_name" id=${v.sku_id} data-toggle="modal" data-target="#chartModal"><i data-toggle="tooltip" data-placement="bottom" title="Fiyat Geçmişi" style="font-size: 18px; color: #fb8332; cursor:pointer;" class='bx bx-bar-chart-alt-2 chartHandler'></a></i></td>
                     </tr>
                     <tr class="spacer"></tr>
                     `
-                    $("#market-table tbody").append(rows)
-                })
+                        $("#market-table tbody").append(rows)
+                    })
 
-                $('#market-table').DataTable({
-                    "dom": '<"row justify-content-between top-information"lf>rt<"row justify-content-between bottom-information"ip><"clear">',
-                    language: {
-                        url: '//cdn.datatables.net/plug-ins/1.11.3/i18n/tr.json'
-                    },
-                    "bLengthChange": false,
-                    "bInfo": false,
-                    "paging": false,
-                    "destroy": true,
-                    "responsive": true
-                });
+                    $('#market-table').DataTable({
+                        "dom": '<"row justify-content-between top-information"lf>rt<"row justify-content-between bottom-information"ip><"clear">',
+                        language: {
+                            url: '//cdn.datatables.net/plug-ins/1.11.3/i18n/tr.json'
+                        },
+                        "bLengthChange": false,
+                        "bInfo": false,
+                        "paging": false,
+                        "destroy": true,
+                        "responsive": true
+                    });
+                }, 100);
 
             },
             error: function () {
@@ -138,7 +255,7 @@ $(document).ready(function () {
             success: function (response) {
                 $.each(response, function (k, v) {
                     let options = `
-                    <option value="${v.id}">${v.product_category+" ("+marketDon(v.market_id)+")" }</option>`
+                    <option value="${v.id}">${v.product_category + " (" + marketDon(v.market_id) + ")"}</option>`
                     $("#categories").append(options);
                 })
             }
@@ -164,7 +281,7 @@ $(document).ready(function () {
     const getMarkets = () => {
         const textMarkets = ['Carrefoursa', 'Migros', 'A101', 'Şok']
         for (let i = 0; i < textMarkets.length; i++) {
-            let options = `<option value="${(i+1)}">${textMarkets[i]}</option>`
+            let options = `<option value="${(i + 1)}">${textMarkets[i]}</option>`
             $("#markets").append(options);
         }
     }
@@ -180,9 +297,9 @@ $(document).ready(function () {
 
     });
 
-    function prevbuttonActivKontrol(){
+    function prevbuttonActivKontrol() {
         const button = document.querySelector('.btnPrev');
-        if(page>1)
+        if (page > 1)
             button.disabled = false;
         else
             button.disabled = true;
@@ -192,7 +309,7 @@ $(document).ready(function () {
     $("#btnDeleteFilters").click(function () {
         document.getElementById("filterForm").reset();
         $("#market-table tbody").empty();
-        page=1;
+        page = 1;
         prevbuttonActivKontrol();
     })
 
@@ -204,4 +321,6 @@ $(document).ready(function () {
             $(this).find('.sm-menu').first().stop(true, true).delay(120).slideUp(100);
         });
     }
+
 });
+
