@@ -187,6 +187,14 @@ $(document).ready(function () {
         else
             button.disabled = true;
     }
+    //filtreleri temizleme
+    //kategori market id ve page kısmı silme gibi bişey eklemek gerekiyor
+    $("#btnDeleteFilters").click(function () {
+        document.getElementById("filterForm").reset();
+        $("#market-table tbody").empty();
+        page=1;
+        prevbuttonActivKontrol();
+    })
 
 
     if ($(window).width() > 991) {
