@@ -3,6 +3,7 @@ var myChart = echarts.init(document.getElementById('main'));
 
 
 const chartHandler = (sku_id, product_name) => {
+
     // console.log(sku_id)
     let data = {
         sku_id: sku_id
@@ -17,8 +18,14 @@ const chartHandler = (sku_id, product_name) => {
         type: "POST",
         url: "https://marketapi-bfltu.ondigitalocean.app/listHP/",
         data: JSON.stringify(data),
-        success: function (response) {
+        beforeSend: function () {
+            $("#main").attr("hidden", true);
+            $("#loader").removeAttr("hidden");
 
+        },
+        success: function (response) {
+            $("#loader").attr("hidden", true);
+            $("#main").removeAttr("hidden");
             $.each(response, function (k, v) {
                 historyDates.push(v.created_date.split("T")[0]);
                 historyPrices.push(v.product_price);
@@ -120,9 +127,6 @@ $(document).ready(function () {
     let productMadein = "";
     const getTableData = (page, productName, productCategory, productMarketId, productBrand, productMinPrice, ProductmaxPrice, productMadein) => {
 
-
-        $(".loading").removeAttr("hidden");
-
         let data = {
             page: page,
             search_word: productName,
@@ -138,7 +142,19 @@ $(document).ready(function () {
             type: "POST",
             url: "https://marketapi-bfltu.ondigitalocean.app/listproducts/",
             data: JSON.stringify(data),
+            beforeSend: function () {
+                $("#footer").attr("hidden" ,true)
+                $("#prevNextBox").attr("hidden", true);
+                $("#market-table").attr("hidden", true);
+                $("#loaderTable").removeAttr("hidden");
+
+            },
             success: function (response) {
+                $("#footer").removeAttr("hidden")
+                $("#prevNextBox").removeAttr("hidden");
+                $("#market-table").removeAttr("hidden");
+                $("#loaderTable").attr("hidden", true);
+
                 $(".loading").attr("hidden", true);
                 setTimeout(() => {
                     // console.log("getTableData");
@@ -216,9 +232,9 @@ $(document).ready(function () {
 
         console.log("getResults")
         productName = $("#txtProductName").val();
-        productCategory=[];
-        console.log("pc"+$("#categories").val())
-        if($("#categories").val()!=""){
+        productCategory = [];
+        console.log("pc" + $("#categories").val())
+        if ($("#categories").val() != "") {
             productCategory0 = ($("#categories").val()).toString().split(",");
             productCategory = productCategory0.map(function (x) {
                 return parseInt(x, 10);
@@ -270,13 +286,12 @@ $(document).ready(function () {
     }
     getCategories();
     $('#categories').select2({
+        placeholder: "Kategori(ler) Seçiniz",
         language: {
             noResults: function (params) {
                 return "Kategori Bulunamadı!";
             },
         },
-
-        placeholder: "Seçiniz",
 
     });
 
@@ -294,6 +309,7 @@ $(document).ready(function () {
     }
     getMarkets();
     $('#markets').select2({
+        allowClear: true,
         language: {
             noResults: function (params) {
                 return "Market Bulunamadı!";
@@ -315,9 +331,12 @@ $(document).ready(function () {
     //kategori market id ve page kısmı silme gibi bişey eklemek gerekiyor
     $("#btnDeleteFilters").click(function () {
         document.getElementById("filterForm").reset();
-        $("#market-table tbody").empty();
         page = 1;
         prevbuttonActivKontrol();
+        $('#markets').val(null); // Select the option with a value of '1'
+        $('#markets').trigger('change');
+        $('#categories').val(null); // Select the option with a value of '1'
+        $('#categories').trigger('change');
     })
 
 
