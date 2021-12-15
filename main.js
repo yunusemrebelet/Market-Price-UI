@@ -143,7 +143,7 @@ $(document).ready(function () {
             url: "https://marketapi-bfltu.ondigitalocean.app/listproducts/",
             data: JSON.stringify(data),
             beforeSend: function () {
-                $("#footer").attr("hidden" ,true)
+                $("#footer").attr("hidden", true)
                 $("#prevNextBox").attr("hidden", true);
                 $("#market-table").attr("hidden", true);
                 $("#loaderTable").removeAttr("hidden");
@@ -228,7 +228,7 @@ $(document).ready(function () {
     };
 
     const getResults = () => {
-        page=1;
+        page = 1;
         prevbuttonActivKontrol()
         console.log("getResults")
         productName = $("#txtProductName").val();
@@ -252,7 +252,7 @@ $(document).ready(function () {
         // console.log("productBrand"+productBrand);
         // console.log("productMinPrice"+productMinPrice);
         // console.log("ProductmaxPrice"+ProductmaxPrice);
-        console.log("productUnit"+productUnit)
+        console.log("productUnit" + productUnit)
         getTableData(page, productName, productCategory, productMarketId, productBrand, productMinPrice, ProductmaxPrice, productUnit)
     };
 
@@ -270,30 +270,40 @@ $(document).ready(function () {
         prevPage();
     })
 
-    const getCategories = () => {
-        $.ajax({
-            url: "https://marketapi-bfltu.ondigitalocean.app/listproductcategory/",
-            type: 'GET',
-            dataType: 'json', // added data type
-            success: function (response) {
-                $.each(response, function (k, v) {
-                    let options = `
-                    <option value="${v.id}">${v.product_category + " (" + marketDon(v.market_id) + ")"}</option>`
-                    $("#categories").append(options);
-                })
-            }
+    let marketId = [];
+    const getTableDataCategory = (marketId2) => {
+        marketId[0] = marketId2
+        let category_data = {
+            market_id: marketId
+        }
+        $("#categories").empty();
+        const getCategories = () => {
+            $.ajax({
+                type: "POST",
+                url: "https://marketapi-bfltu.ondigitalocean.app/listproductcategory/",
+                data: JSON.stringify(category_data),
+                dataType: 'json', // added data type
+                success: function (response) {
+                    $.each(response, function (k, v) {
+                        let options = `
+                        <option value="${v.id}">${v.product_category + " (" + marketDon(v.market_id) + ")"}</option>`
+                        $("#categories").append(options);
+                    })
+                }
+            });
+        }
+        getCategories();
+        $('#categories').select2({
+            placeholder: "Kategori(ler) Seçiniz",
+            language: {
+                noResults: function (params) {
+                    return "Kategori Bulunamadı!";
+                },
+            },
+
         });
     }
-    getCategories();
-    $('#categories').select2({
-        placeholder: "Kategori(ler) Seçiniz",
-        language: {
-            noResults: function (params) {
-                return "Kategori Bulunamadı!";
-            },
-        },
-
-    });
+    getTableDataCategory()
 
     function marketDon(market_id) {
         const textMarkets = ['Carrefoursa', 'Migros', 'A101', 'Şok']
@@ -338,6 +348,10 @@ $(document).ready(function () {
         $('#categories').val(null); // Select the option with a value of '1'
         $('#categories').trigger('change');
     })
+    //market filtresini dinleyerek kategoriyi filtrelenmesini sağlama
+    $('#markets').change(function () {
+        getTableDataCategory($('#markets').val());
+    });
 
 
     if ($(window).width() > 991) {
