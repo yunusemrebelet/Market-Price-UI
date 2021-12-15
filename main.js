@@ -1,7 +1,6 @@
 // Initialize the echarts instance based on the prepared dom
 var myChart = echarts.init(document.getElementById('main'));
 
-
 const chartHandler = (sku_id, product_name) => {
 
     // console.log(sku_id)
