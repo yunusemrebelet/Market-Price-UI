@@ -124,8 +124,8 @@ $(document).ready(function () {
     let productBrand = "";
     var productMinPrice = 0;
     let ProductmaxPrice = Infinity;
-    let productMadein = "";
-    const getTableData = (page, productName, productCategory, productMarketId, productBrand, productMinPrice, ProductmaxPrice, productMadein) => {
+    let productUnit = "";
+    const getTableData = (page, productName, productCategory, productMarketId, productBrand, productMinPrice, ProductmaxPrice, productUnit) => {
 
         let data = {
             page: page,
@@ -135,7 +135,7 @@ $(document).ready(function () {
             product_brand: productBrand,
             min_price: productMinPrice,
             max_price: ProductmaxPrice,
-            product_madein: productMadein
+            unit: productUnit
         }
 
         $.ajax({
@@ -206,10 +206,10 @@ $(document).ready(function () {
         productBrand = $("#txtProductBrand").val();
         productMinPrice = $("#txtProductMinPrice").val();
         ProductmaxPrice = $("#txtProductMaxPrice").val();
-        productMadein = $("#txtProductMadein").val();
+        productUnit = $("#txtProductUnit").val();
         page++
         prevbuttonActivKontrol()
-        getTableData(page, productName, productCategory, productMarketId, productBrand, productMinPrice, ProductmaxPrice, productMadein)
+        getTableData(page, productName, productCategory, productMarketId, productBrand, productMinPrice, ProductmaxPrice, productUnit)
 
     };
     const prevPage = () => {
@@ -221,9 +221,9 @@ $(document).ready(function () {
         productBrand = $("#txtProductBrand").val();
         productMinPrice = $("#txtProductMinPrice").val();
         ProductmaxPrice = $("#txtProductMaxPrice").val();
-        productMadein = $("#txtProductMadein").val();
+        productUnit = $("#txtProductUnit").val();
         prevbuttonActivKontrol()
-        getTableData(page, productName, productCategory, productMarketId, productBrand, productMinPrice, ProductmaxPrice, productMadein)
+        getTableData(page, productName, productCategory, productMarketId, productBrand, productMinPrice, ProductmaxPrice, productUnit)
 
     };
 
@@ -244,7 +244,7 @@ $(document).ready(function () {
         productBrand = $("#txtProductBrand").val();
         productMinPrice = $("#txtProductMinPrice").val();
         ProductmaxPrice = $("#txtProductMaxPrice").val();
-        productMadein = $("#txtProductMadein").val();
+        productUnit = $("#txtProductUnit").val();
 
         // console.log("productName"+productName);
         console.log("productCategory" + typeof (productCategory));
@@ -252,8 +252,8 @@ $(document).ready(function () {
         // console.log("productBrand"+productBrand);
         // console.log("productMinPrice"+productMinPrice);
         // console.log("ProductmaxPrice"+ProductmaxPrice);
-        // console.log("productMadein"+productMadein)
-        getTableData(page, productName, productCategory, productMarketId, productBrand, productMinPrice, ProductmaxPrice, productMadein)
+        console.log("productUnit"+productUnit)
+        getTableData(page, productName, productCategory, productMarketId, productBrand, productMinPrice, ProductmaxPrice, productUnit)
     };
 
     $("#btnGetResults").click(function () {
