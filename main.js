@@ -228,8 +228,8 @@ $(document).ready(function () {
     };
 
     const getResults = () => {
+        page=1;
         prevbuttonActivKontrol()
-
         console.log("getResults")
         productName = $("#txtProductName").val();
         productCategory = [];
