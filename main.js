@@ -3,7 +3,7 @@ var myChart = echarts.init(document.getElementById('main'));
 
 const chartHandler = (product_id, product_name) => {
 
-    // console.log(sku_id)
+    // console.log(product_id)
     let data = {
         product_id: product_id
     };
