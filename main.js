@@ -1,11 +1,11 @@
 // Initialize the echarts instance based on the prepared dom
 var myChart = echarts.init(document.getElementById('main'));
 
-const chartHandler = (sku_id, product_name) => {
+const chartHandler = (product_id, product_name) => {
 
     // console.log(sku_id)
     let data = {
-        sku_id: sku_id
+        product_id: product_id
     };
 
     $("#productChartName").text(product_name);
@@ -169,7 +169,7 @@ $(document).ready(function () {
                         <td>${v.product_price} TL</td>
                         <td>${v.product_category}</td>
                         <td><a target="_blank" href="${v.product_link}"><i data-toggle="tooltip" data-placement="bottom" title="Ürünü İncele" style="font-size: 18px; color: #fb8332;" class='bx bx-link-external'></a></i>
-                        <a onclick="chartHandler(this.id, this.class)" class="v.product_name" id=${v.sku_id} data-toggle="modal" data-target="#chartModal"><i data-toggle="tooltip" data-placement="bottom" title="Fiyat Geçmişi" style="font-size: 18px; color: #fb8332; cursor:pointer;" class='bx bx-bar-chart-alt-2 chartHandler'></a></i></td>
+                        <a onclick="chartHandler(this.id, this.class)" class="v.product_name" id=${v.id} data-toggle="modal" data-target="#chartModal"><i data-toggle="tooltip" data-placement="bottom" title="Fiyat Geçmişi" style="font-size: 18px; color: #fb8332; cursor:pointer;" class='bx bx-bar-chart-alt-2 chartHandler'></a></i></td>
                     </tr>
                     <tr class="spacer"></tr>
                     `
