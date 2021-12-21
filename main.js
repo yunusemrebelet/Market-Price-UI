@@ -353,6 +353,29 @@ $(document).ready(function () {
     });
 
 
+    function html_table_to_excel(type) {
+        var data = document.getElementById('market-table');
+
+        var file = XLSX.utils.table_to_book(data, {
+            sheet: "sheet1"
+        });
+
+        XLSX.write(file, {
+            bookType: type,
+            bookSST: true,
+            type: 'base64'
+        });
+
+        XLSX.writeFile(file, 'marketFiyatlari.' + type);
+    }
+
+    const export_button = document.getElementById('btnExport');
+
+    export_button.addEventListener('click', () => {
+        html_table_to_excel('xlsx');
+    });
+
+
     if ($(window).width() > 991) {
         $('.navbar-light .d-menu').hover(function () {
             $(this).find('.sm-menu').first().stop(true, true).slideDown(150);

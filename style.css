@@ -114,6 +114,16 @@ textarea {
     border-radius: 6px;
 }
 
+/* btnExport */
+.btnExport {
+    border: none;
+    background-color: #1f2f3d;
+    color: white;
+    padding: 6px 20px;
+    border-radius: 6px;
+    margin-right: 20px;
+}
+
 .btnPrev {
     border: none;
     background-color: #1f2f3d;
