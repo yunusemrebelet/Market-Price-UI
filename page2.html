@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Market Fiyatları</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
+  <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light shadow-sm bg-light fixed-top">
+    <div class="container"> <a class="navbar-brand d-flex align-items-center" href="#">
+
+        <span class="ml-3 font-weight-bold">MARKET FİYATLARI</apan>
+      </a> <button class="navbar-toggler navbar-toggler-right border-0" type="button" data-toggle="collapse"
+        data-target="#navbar4">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+
+      <div class="collapse navbar-collapse justify-content-between" id="navbar4">
+        <ul class="navbar-nav mr-auto pl-lg-4">
+          <li class="nav-item px-lg-2 active"> <a class="nav-link" href="#"> <span
+                class="d-inline-block d-lg-none icon-width"><i class="fas fa-home"></i></span>Anasayfa</a> </li>
+          <li class="nav-item px-lg-2"> <a class="nav-link" href="#"><span
+                class="d-inline-block d-lg-none icon-width"><i class="fas fa-spa"></i></span>Nedir ?</a> </li>
+          <li class="nav-item px-lg-2"> <a class="nav-link" href="#"><span
+                class="d-inline-block d-lg-none icon-width"><i class="far fa-user"></i></i></span>İletişim</a> </li>
+
+        </ul>
+        <ul class="navbar-nav ml-auto mt-3 mt-lg-0">
+          <li class="nav-item"> <a class="nav-link" href="#">
+              <i class='bx bxl-instagram'></i><span class="d-lg-none ml-3">Twitter</span>
+            </a> </li>
+          <li class="nav-item"> <a class="nav-link" href="#">
+              <i class='bx bxl-instagram'></i><span class="d-lg-none ml-3">Twitter</span>
+            </a> </li>
+          <li class="nav-item"> <a class="nav-link" href="#">
+              <i class='bx bxl-instagram'></i><span class="d-lg-none ml-3">Twitter</span>
+            </a> </li>
+          <li class="nav-item"> <a class="nav-link" href="#">
+              <i class='bx bxl-instagram'></i><span class="d-lg-none ml-3">Twitter</span>
+            </a> </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="table-responsive table-responsive-data2">
+    <div id="loaderTable" style="margin-left: 50%;" class="lds-roller">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+    <table hidden id="market-table2" class="table table-data2">
+      <thead>
+        <tr>
+          <th>Market</th>
+          <th>Kategori</th>
+          <th>Min Fiyat</th>
+          <th>Ort Fiyat</th>
+          <th>Max Fiyat</th>
+          <th>Ürün Sayısı</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+    <div id="prevNextBox" class="pt-2 pb-5" style="float: right;">
+      <button onclick="prevPage();" disabled class="btnPrev">Önceki</button>
+      <button onclick="nextPage();" class="btnNext">Sonraki</button>
+    </div>
+  </div>
+  <footer id="footer">
+    <div style="margin-top: 6rem;" class="row d-flex text-center">
+      <span>© 2021 Market Fiyatları All Rights Reserved</span>
+    </div>
+  </footer>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js "
+    integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin=" anonymous "></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"
+    integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous">
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous">
+  </script>
+
+  <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.2.1/echarts.min.js"
+    integrity="sha512-17GGcT5BjSbaXG+4Fk3Z1HS1ATXH5oEH060GS3WvSEqGGpkSbRV/amkIWpqOJOIwkBW13QMOBblj8DXnlN7bEA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  <script src="page2.js"></script>
+
+</body>
+
+</html>

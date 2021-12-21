@@ -569,6 +569,13 @@ button.close:focus {
     position: fixed !important;
     z-index: 999 !important;
   }
+/* enler tablosu */
+table.table-data2 {
+	margin-top: 50px;
+	padding-top: 10px;
+	width: 100%;
+}
+
 @keyframes lds-roller {
     0% {
         transform: rotate(0deg);
