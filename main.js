@@ -166,7 +166,7 @@ $(document).ready(function () {
                         <td>${v.product_brand}</td>
                         <td>${v.market_name}</td>
                         <td>${v.product_unit}</td>
-                        <td>${v.product_price} TL</td>
+                        <td>${v.product_price.toFixed(2)} TL</td>
                         <td>${v.product_category}</td>
                         <td><a target="_blank" href="${v.product_link}"><i data-toggle="tooltip" data-placement="bottom" title="Ürünü İncele" style="font-size: 18px; color: #fb8332;" class='bx bx-link-external'></a></i>
                         <a onclick="chartHandler(this.id, this.class)" class="v.product_name" id=${v.id} data-toggle="modal" data-target="#chartModal"><i data-toggle="tooltip" data-placement="bottom" title="Fiyat Geçmişi" style="font-size: 18px; color: #fb8332; cursor:pointer;" class='bx bx-bar-chart-alt-2 chartHandler'></a></i></td>
