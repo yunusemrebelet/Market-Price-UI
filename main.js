@@ -207,6 +207,7 @@ $(document).ready(function () {
         ProductmaxPrice = $("#txtProductMaxPrice").val();
         productUnit = $("#txtProductUnit").val();
         page++
+        document.getElementById("page").innerHTML = page.toString()
         prevbuttonActivKontrol()
         getTableData(page, productName, productCategory, productMarketId, productBrand, productMinPrice, ProductmaxPrice, productUnit)
 
@@ -221,6 +222,7 @@ $(document).ready(function () {
         productMinPrice = $("#txtProductMinPrice").val();
         ProductmaxPrice = $("#txtProductMaxPrice").val();
         productUnit = $("#txtProductUnit").val();
+        document.getElementById("page").innerHTML = page.toString()
         prevbuttonActivKontrol()
         getTableData(page, productName, productCategory, productMarketId, productBrand, productMinPrice, ProductmaxPrice, productUnit)
 
@@ -252,6 +254,7 @@ $(document).ready(function () {
         // console.log("productMinPrice"+productMinPrice);
         // console.log("ProductmaxPrice"+ProductmaxPrice);
         console.log("productUnit" + productUnit)
+        document.getElementById("page").innerHTML = page.toString()
         getTableData(page, productName, productCategory, productMarketId, productBrand, productMinPrice, ProductmaxPrice, productUnit)
     };
 
